@@ -124,7 +124,7 @@ public class KnapsackProblem {
 		//集計
 		//valueMap1を調査してみよう。その中で、keyがweightLimit以下のものの中で、最大の価値をもつものを回答しなさい。
 		Integer result = Integer.MIN_VALUE;
-		Set<Map.Entry<Integer, Integer>> set1 = valueMap2.entrySet();
+		Set<Map.Entry<Integer, Integer>> set1 = valueMap1.entrySet();
 		for(Map.Entry<Integer, Integer> entry:set1) {
 			if(entry.getKey() <= weightLimit) {
 				if(entry.getValue() > result) {
