@@ -88,13 +88,25 @@ public class KnapsackProblem {
 				//provisionalMapに加算結果を保存したい。
 				Set<Map.Entry<Integer,Integer>> goodsSet = goodsRepository.entrySet();
 				for(Map.Entry<Integer, Integer> goodsSetEntry:goodsSet) {
-					//System.out.print("goodsSetEntry->key:"+goodsSetEntry.getKey() +" / value:"+goodsSetEntry.getValue());
+					/*System.out.print("goodsSetEntry->key:"+goodsSetEntry.getKey()
+					 *  +" / value:"+goodsSetEntry.getValue());*/
+					
 					/*valueMapの特定の１つの要素と、目録の商品全てを、それぞれ足して
 					 * 値を算出し、provisionalMapに保存します。*/
 					Integer nextKey = entry.getKey() + goodsSetEntry.getKey();
 					Integer nextValue = entry.getValue() + goodsSetEntry.getValue();
 					//System.out.println("nextKey :" +nextKey + " / nextValue : " +nextValue);
-					provisionalMap.put(nextKey, nextValue);
+					//ここでそのまんま保存していいわけがない。より価値が高いのなら上書きするし、存在しないなら新規保存しよう。
+					if(provisionalMap.containsKey(nextKey)) {
+						if(provisionalMap.get(nextKey)<nextValue) {
+							provisionalMap.put(nextKey, nextValue);
+						}else {
+							;
+						}
+					}else {
+						provisionalMap.put(nextKey, nextValue);
+					}
+					
 				}
 				/*valueMap2とprovisionalMapとを比較します。
 				 * 同じ重さなのに、価値がより高いものがprovisionalMapの方にあったなら、
@@ -132,7 +144,17 @@ public class KnapsackProblem {
 				}
 			}
 		}
+		
+		showMap(valueMap1);
+		
 		//結果発表
 		System.out.println("result = : " + result);
+	}
+	
+	private void showMap(SortedMap<Integer,Integer> map) {
+		Set<Map.Entry<Integer, Integer>> set1 =map.entrySet();
+		for(Map.Entry<Integer, Integer> entry:set1) {
+			System.out.println("key:"+entry.getKey()+" / value:" + entry.getValue());
+		}
 	}
 }
